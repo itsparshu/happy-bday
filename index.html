@@ -240,7 +240,6 @@
             justify-content: center;
             padding: 6rem 1.6rem 4rem;
             text-align: center;
-            /* Hero image background – original */
             background-image: var(--hero-image, none);
             background-size: cover;
             background-position: center;
@@ -1050,13 +1049,138 @@
         })();
 
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        // 7.  MUSIC BUTTON (normal toggle)
+        // 7.  MUSIC BUTTON — FIXED WITH ACTUAL AUDIO!
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         const musicBtn = document.getElementById('musicBtn');
-        musicBtn?.addEventListener('click', () => {
-            musicBtn.classList.toggle('playing');
-            musicBtn.textContent = musicBtn.classList.contains('playing') ? '♫' : '♪';
+
+        // Create audio element for birthday song
+        let audio = null;
+
+        function initAudio() {
+            if (!audio) {
+                try {
+                    audio = new Audio('assets/bday.mp3');
+                    audio.loop = true;
+                    audio.volume = 0.6;
+                } catch (e) {
+                    console.log('Audio file not found — using fallback beep');
+                    // Fallback: create a simple oscillator if browser supports it
+                    try {
+                        const ctx = new(window.AudioContext || window.webkitAudioContext)();
+                        // We'll use this as a fallback later
+                    } catch (e2) {}
+                }
+            }
+            return audio;
+        }
+
+        function toggleMusic() {
+            const btn = musicBtn;
+            const isPlaying = btn.classList.contains('playing');
+
+            if (isPlaying) {
+                // Stop music
+                if (audio) {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+                btn.classList.remove('playing');
+                btn.textContent = '♪';
+                console.log('🎵 Music paused');
+            } else {
+                // Start music
+                const audioEl = initAudio();
+
+                if (audioEl) {
+                    // Try to play
+                    const playPromise = audioEl.play();
+                    if (playPromise !== undefined) {
+                        playPromise
+                            .then(() => {
+                                btn.classList.add('playing');
+                                btn.textContent = '♫';
+                                console.log('🎵 Music playing!');
+                            })
+                            .catch((err) => {
+                                console.log('Autoplay blocked — clicking again will play');
+                                // Browser blocked autoplay — show a message or retry
+                                // We'll retry on next click
+                                btn.classList.remove('playing');
+                                btn.textContent = '♪';
+                                // Show small notification
+                                showToast('🎵 Click again to play (autoplay blocked)');
+                            });
+                    }
+                } else {
+                    // Fallback: use Web Audio API to generate a simple tone
+                    try {
+                        const ctx = new(window.AudioContext || window.webkitAudioContext)();
+                        const oscillator = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        oscillator.connect(gain);
+                        gain.connect(ctx.destination);
+                        oscillator.type = 'sine';
+                        oscillator.frequency.value = 523.25; // C5
+                        gain.gain.value = 0.3;
+                        oscillator.start();
+                        oscillator.stop(ctx.currentTime + 0.5);
+
+                        // Play a few notes (simple fallback)
+                        const notes = [523.25, 587.33, 659.25, 783.99, 880.00];
+                        notes.forEach((freq, i) => {
+                            setTimeout(() => {
+                                const osc = ctx.createOscillator();
+                                const g = ctx.createGain();
+                                osc.connect(g);
+                                g.connect(ctx.destination);
+                                osc.type = 'sine';
+                                osc.frequency.value = freq;
+                                g.gain.value = 0.2;
+                                osc.start();
+                                osc.stop(ctx.currentTime + 0.3);
+                            }, i * 200);
+                        });
+
+                        btn.classList.add('playing');
+                        btn.textContent = '♫';
+                        showToast('🎵 Playing a little melody for you!');
+                    } catch (e) {
+                        showToast('🎵 Could not play audio — try tapping again');
+                        btn.classList.remove('playing');
+                        btn.textContent = '♪';
+                    }
+                }
+            }
+        }
+
+        // Click handler for music button
+        musicBtn?.addEventListener('click', function(e) {
+            e.stopPropagation();
+            toggleMusic();
         });
+
+        // Also try to play on first user interaction anywhere on page
+        let musicStarted = false;
+
+        function tryAutoPlay() {
+            if (musicStarted) return;
+            musicStarted = true;
+
+            // Try to play music silently on first click
+            setTimeout(() => {
+                const audioEl = initAudio();
+                if (audioEl) {
+                    audioEl.play().catch(() => {
+                        // Silently fail — user can click the button
+                        console.log('Auto-play blocked, user must click button');
+                    });
+                }
+            }, 500);
+        }
+
+        // Attempt autoplay on any user interaction
+        document.addEventListener('click', tryAutoPlay, { once: true });
+        document.addEventListener('touchstart', tryAutoPlay, { once: true });
 
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         // 8.  COUNTDOWN LOOP + UNLOCK CHECK
@@ -1131,6 +1255,10 @@
         console.log('');
         console.log('🕵️ ─── BYPASS METHOD ───');
         console.log('  ➜ Add ?unlock=true to the URL (e.g., index.html?unlock=true)');
+        console.log('');
+        console.log('🎵 ─── MUSIC ───');
+        console.log('  ➜ Click the ♪ button in the bottom-right corner');
+        console.log('  ➜ Music file: assets/bday.mp3');
         console.log('');
         console.log('💖 Made with love for the most special person.');
     </script>
