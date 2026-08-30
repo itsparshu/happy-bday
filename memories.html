@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memories | Toshi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Dancing+Script:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        /* ─── RESET & BASE ─── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html,
+        body {
+            height: 100%;
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(145deg, #fff0f5, #ffb6c1, #ff85a2);
+            color: #3e3232;
+            overflow-x: hidden;
+            cursor: default;
+            min-height: 100vh;
+        }
+        body {
+            min-height: 100vh;
+        }
+
+        /* ─── CURSOR GLOW ─── */
+        .cursor-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 182, 193, 0.25) 0%, transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: left 0.08s ease-out, top 0.08s ease-out;
+            z-index: 9999;
+            will-change: left, top;
+        }
+
+        /* ─── FLOATING BG ─── */
+        .floating-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .floating-bg span {
+            position: absolute;
+            font-size: 2.4rem;
+            opacity: 0.20;
+            animation: floatUp linear infinite;
+            user-select: none;
+        }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.6);
+                opacity: 0.15;
+            }
+            10% {
+                opacity: 0.30;
+            }
+            90% {
+                opacity: 0.30;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(720deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* ─── BUBBLE CONTAINER ─── */
+        .bubble-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+            animation: bubbleRise linear infinite;
+            will-change: transform, opacity;
+            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            user-select: none;
+            pointer-events: none;
+        }
+        @keyframes bubbleRise {
+            0% {
+                transform: translateY(100vh) scale(0.3) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.1) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ─── NAVBAR ─── */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 2.4rem;
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
+        }
+        .navbar .logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #8f5f51;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.6rem;
+            align-items: center;
+        }
+        .nav-links a {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #5a3d3d;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.25s, transform 0.25s;
+            letter-spacing: 0.3px;
+        }
+        .nav-links a:hover {
+            opacity: 1;
+            transform: translateY(-1px);
+        }
+        .nav-links a.active {
+            opacity: 1;
+            font-weight: 600;
+            color: #8f5f51;
+        }
+
+        /* ─── MAIN LAYOUT ─── */
+        .memories-page {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            padding: 6rem 1.6rem 4rem;
+        }
+
+        /* ─── HEADER (matching Cake & Letter pages) ─── */
+        .memories-header {
+            text-align: center;
+            padding: 1.2rem 0 2.4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .memories-header .script-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.4rem;
+            font-weight: 600;
+            color: #8f5f51;
+            margin-bottom: 0.2rem;
+        }
+
+        .memories-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.6rem;
+            font-weight: 700;
+            color: #3e3232;
+            margin-bottom: 0.4rem;
+            letter-spacing: 1px;
+        }
+
+        .memories-header .sub-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            color: #5a3d3d;
+            opacity: 0.7;
+            letter-spacing: 2px;
+        }
+
+        .memories-header .heart-divider {
+            font-size: 2rem;
+            margin: 0.4rem 0 0;
+            opacity: 0.5;
+            letter-spacing: 8px;
+        }
+
+        /* ─── MASONRY GRID ─── */
+        .masonry {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.8rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0.4rem 0 2rem;
+        }
+
+        /* ─── POLAROID CARD (preserved original structure) ─── */
+        .polaroid {
+            background: rgba(255, 248, 245, 0.88);
+            backdrop-filter: blur(4px);
+            border-radius: 16px 16px 20px 20px;
+            padding: 0.8rem 0.8rem 1rem;
+            box-shadow: 0 8px 32px rgba(62, 50, 50, 0.10), 0 2px 8px rgba(62, 50, 50, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1), box-shadow 0.4s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+        .polaroid:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 16px 48px rgba(62, 50, 50, 0.15);
+        }
+
+        .polaroid .photo {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 12px 12px 8px 8px;
+            background-size: cover;
+            background-position: center;
+            background-color: rgba(200, 180, 180, 0.15);
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .polaroid .photo video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px 12px 8px 8px;
+            display: block;
+        }
+
+        .polaroid.tall .photo {
+            aspect-ratio: 3 / 4;
+        }
+
+        .polaroid.wide {
+            grid-column: span 2;
+        }
+        .polaroid.wide .photo {
+            aspect-ratio: 16 / 9;
+        }
+
+        .polaroid p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #3e3232;
+            text-align: center;
+            padding: 0.6rem 0.2rem 0.1rem;
+            line-height: 1.4;
+            letter-spacing: 0.3px;
+        }
+
+        /* ─── REVEAL ANIMATIONS ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px) scale(0.96);
+            animation: revealIn 0.8s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+        }
+        .reveal.delay-1 {
+            animation-delay: 0.15s;
+        }
+        .reveal.delay-2 {
+            animation-delay: 0.3s;
+        }
+        .reveal.delay-3 {
+            animation-delay: 0.45s;
+        }
+
+        @keyframes revealIn {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            padding: 2rem 1.6rem 1.4rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: rgba(62, 50, 50, 0.55);
+            letter-spacing: 0.8px;
+            margin-top: 0.5rem;
+        }
+
+        /* ─── LIGHTBOX ─── */
+        .lightbox-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 999;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            padding: 2rem;
+        }
+        .lightbox-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox-content {
+            max-width: 85vh;
+            max-height: 85vh;
+            border-radius: 20px;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
+            transform: scale(0.92) translateY(20px);
+            transition: transform 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+            background: rgba(255, 248, 245, 0.95);
+            padding: 0.6rem 0.6rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .lightbox-overlay.active .lightbox-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .lightbox-content .lb-image {
+            width: 100%;
+            max-height: 65vh;
+            object-fit: contain;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.05);
+        }
+        .lightbox-content .lb-video {
+            width: 100%;
+            max-height: 65vh;
+            border-radius: 12px;
+            background: #000;
+        }
+        .lightbox-content .lb-caption {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: #3e3232;
+            padding: 0.8rem 0.4rem 0.2rem;
+            text-align: center;
+        }
+
+        .lb-close {
+            position: absolute;
+            top: -3.2rem;
+            right: 0;
+            font-size: 2rem;
+            color: #fff;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+        }
+        .lb-close:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.5rem 1.2rem;
+                flex-wrap: wrap;
+                gap: 0.3rem;
+            }
+            .navbar .logo {
+                font-size: 1.3rem;
+            }
+            .nav-links {
+                gap: 0.8rem;
+                flex-wrap: wrap;
+            }
+            .nav-links a {
+                font-size: 0.75rem;
+            }
+            .memories-page {
+                padding: 5rem 1rem 3rem;
+            }
+            .memories-header .script-text {
+                font-size: 1.8rem;
+            }
+            .memories-header h1 {
+                font-size: 2.4rem;
+            }
+            .masonry {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 1.2rem;
+            }
+            .polaroid.wide {
+                grid-column: span 1;
+            }
+            .polaroid p {
+                font-size: 0.95rem;
+            }
+            .lightbox-content {
+                max-width: 95vw;
+                max-height: 85vh;
+            }
+            .lightbox-content .lb-image,
+            .lightbox-content .lb-video {
+                max-height: 50vh;
+            }
+            .lightbox-content .lb-caption {
+                font-size: 1.1rem;
+            }
+            .lb-close {
+                top: -2.8rem;
+                right: 0;
+                width: 38px;
+                height: 38px;
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .masonry {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+            }
+            .memories-header h1 {
+                font-size: 1.8rem;
+            }
+            .memories-header .script-text {
+                font-size: 1.4rem;
+            }
+            .polaroid {
+                padding: 0.4rem 0.4rem 0.7rem;
+                border-radius: 12px;
+            }
+            .polaroid .photo {
+                border-radius: 8px;
+            }
+            .polaroid p {
+                font-size: 0.8rem;
+                padding: 0.3rem 0.1rem 0;
+            }
+            .polaroid.tall .photo {
+                aspect-ratio: 3 / 4;
+            }
+            .polaroid.wide {
+                grid-column: span 2;
+            }
+            .polaroid.wide .photo {
+                aspect-ratio: 16 / 9;
+            }
+            .lightbox-content .lb-caption {
+                font-size: 0.95rem;
+            }
+            .lb-close {
+                top: -2.4rem;
+                width: 34px;
+                height: 34px;
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── CURSOR GLOW ─── -->
+    <div class="cursor-glow"></div>
+
+    <!-- ─── FLOATING BG EMOJIS ─── -->
+    <div class="floating-bg" id="floatingBg"></div>
+
+    <!-- ─── BUBBLE CONTAINER ─── -->
+    <div class="bubble-container" id="bubbleContainer"></div>
+
+    <!-- ─── NAVBAR ─── -->
+    <nav class="navbar glass">
+        <a href="index.html" class="logo">Toshi</a>
+        <div class="nav-links">
+            <a href="cake.html">Cake</a>
+            <a href="memories.html" class="active">Memories</a>
+            <a href="reasons.html">Reasons</a>
+            <a href="letter.html">Letter</a>
+            <a href="final.html">Final</a>
+        </div>
+    </nav>
+
+    <!-- ─── MAIN ─── -->
+    <main class="memories-page">
+
+        <!-- ─── HEADER ─── -->
+        <header class="memories-header">
+            <p class="script-text">our little scrapbook</p>
+            <h1>Memory Lane</h1>
+            <p class="sub-text">some days become photos, some photos become forever</p>
+            <div class="heart-divider">✦ ✦ ✦</div>
+        </header>
+
+        <!-- ─── MASONRY GRID ─── -->
+        <section class="masonry">
+            <!-- Original 3 memories preserved exactly -->
+            <div class="polaroid reveal">
+                <div class="photo" style="background-image: url('assets/1.jpg');"></div>
+                <p>favorite chaos 😙 (iykyk)</p>
+            </div>
+            <div class="polaroid tall reveal delay-1">
+                <div class="photo">
+                    <video autoplay muted loop playsinline>
+                        <source src="assets/birth.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <p>Happy birthday Bubu 🫰</p>
+            </div>
+            <div class="polaroid reveal delay-2">
+                <div class="photo" style="background-image: url('assets/favChap.jpg');"></div>
+                <p>forever chapter 🥰</p>
+            </div>
+
+            <!-- Additional memories (optional, keeps original intact) -->
+            <div class="polaroid reveal delay-3">
+                <div class="photo" style="background-image: url('assets/88.jpg');"></div>
+                <p>Lalli &amp; It is called Yoga  😂</p>
+            </div>
+            <div class="polaroid tall reveal delay-1">
+                <div class="photo" style="background-image: url('assets/2.jpg');"></div>
+                <p>sunset kisses &amp; golden hours 🌅</p>
+            </div>
+            <div class="polaroid wide reveal delay-2">
+                <div class="photo" style="background-image: url('assets/3.jpg');"></div>
+                <p>The OG Lalli💖</p>
+            </div>
+            <div class="polaroid reveal delay-3">
+                <div class="photo" style="background-image: url('assets/4.jpg');"></div>
+                <p>city lights &amp; late night talks 🌃</p>
+            </div>
+            <div class="polaroid tall reveal delay-1">
+                <div class="photo" style="background-image: url('assets/18.jpg');"></div>
+                <p>Beautiful 💖</p>
+            </div>
+            <div class="polaroid reveal delay-2">
+                <div class="photo" style="background-image: url('assets/6.jpg');"></div>
+                <p>our little adventures 🗺️</p>
+            </div>
+            <div class="polaroid wide reveal delay-3">
+                <div class="photo" style="background-image: url('assets/13.jpg');"></div>
+                <p>home is wherever you are 🏠</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">every memory is a piece of our story ✦</footer>
+
+    <!-- ─── LIGHTBOX ─── -->
+    <div class="lightbox-overlay" id="lightbox">
+        <div class="lightbox-content" id="lbContent">
+            <button class="lb-close" id="lbClose">✕</button>
+            <img class="lb-image" id="lbImage" src="" alt="memory" style="display:none;" />
+            <video class="lb-video" id="lbVideo" src="" autoplay muted loop playsinline style="display:none;"></video>
+            <p class="lb-caption" id="lbCaption"></p>
+        </div>
+    </div>
+
+    <!-- ─── CONFETTI ─── -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
+    </script>
+
+    <script>
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // 1.  CURSOR GLOW
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        const glow = document.querySelector('.cursor-glow');
+        document.addEventListener('mousemove', (e) => {
+            if (!glow) return;
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // 2.  FLOATING BACKGROUND EMOJIS
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        (function initFloatingBg() {
+            const container = document.getElementById('floatingBg');
+            const emojis = ['🌸', '✨', '💖', '🌷', '💕', '🌟', '🌺', '💗', '🌈', '🌹', '💝', '🌻'];
+            for (let i = 0; i < 30; i++) {
+                const span = document.createElement('span');
+                span.textContent = emojis[i % emojis.length];
+                span.style.left = Math.random() * 100 + '%';
+                span.style.fontSize = (1.2 + Math.random() * 2.4) + 'rem';
+                span.style.animationDuration = (18 + Math.random() * 28) + 's';
+                span.style.animationDelay = (Math.random() * 20) + 's';
+                container.appendChild(span);
+            }
+        })();
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // 3.  BUBBLE GENERATOR
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        const bubbleContainer = document.getElementById('bubbleContainer');
+        const bubbleEmojis = ['💗', '🌸', '✨', '💖', '🌷', '💕', '🌟', '🌺', '🌈', '🌹', '💝', '🌻', '🎀', '💫', '🦋'];
+
+        function spawnBubble() {
+            const el = document.createElement('div');
+            el.className = 'bubble';
+            el.textContent = bubbleEmojis[Math.floor(Math.random() * bubbleEmojis.length)];
+            const size = 1.8 + Math.random() * 2.6;
+            el.style.fontSize = size + 'rem';
+            el.style.left = (Math.random() * 94 + 3) + '%';
+            el.style.animationDuration = (10 + Math.random() * 18) + 's';
+            el.style.animationDelay = (Math.random() * 0.6) + 's';
+            el.style.opacity = 0.15 + Math.random() * 0.35;
+            bubbleContainer.appendChild(el);
+            setTimeout(() => { if (el.parentNode) el.remove(); }, 30000);
+        }
+
+        (function startBubbles() {
+            for (let i = 0; i < 20; i++) setTimeout(spawnBubble, i * 180);
+            setInterval(spawnBubble, 1400);
+        })();
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // 4.  LIGHTBOX
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        const lightbox = document.getElementById('lightbox');
+        const lbImage = document.getElementById('lbImage');
+        const lbVideo = document.getElementById('lbVideo');
+        const lbCaption = document.getElementById('lbCaption');
+        const lbClose = document.getElementById('lbClose');
+
+        document.querySelectorAll('.polaroid').forEach((card) => {
+            card.addEventListener('click', function(e) {
+                // Don't open if clicking on video controls
+                if (e.target.closest('video')) return;
+
+                const photo = this.querySelector('.photo');
+                let src = '';
+                let type = 'image';
+                let caption = this.querySelector('p')?.textContent || '✨';
+
+                // Check if it's a video
+                const video = photo?.querySelector('video');
+                if (video) {
+                    const source = video.querySelector('source');
+                    if (source) {
+                        src = source.src || source.getAttribute('src');
+                        type = 'video';
+                    }
+                } else if (photo) {
+                    const bg = photo.style.backgroundImage;
+                    const match = bg.match(/url\(['"]?(.*?)['"]?\)/);
+                    if (match) src = match[1];
+                }
+
+                if (!src) return;
+
+                // Hide both
+                lbImage.style.display = 'none';
+                lbVideo.style.display = 'none';
+                lbVideo.pause();
+
+                if (type === 'video') {
+                    lbVideo.src = src;
+                    lbVideo.style.display = 'block';
+                    lbVideo.load();
+                    lbVideo.play().catch(() => {});
+                } else {
+                    lbImage.src = src;
+                    lbImage.style.display = 'block';
+                }
+
+                lbCaption.textContent = caption;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+
+                // Confetti
+                if (typeof confetti === 'function') {
+                    const rect = this.getBoundingClientRect();
+                    const x = (rect.left + rect.width / 2) / window.innerWidth;
+                    const y = (rect.top + rect.height / 2) / window.innerHeight;
+                    confetti({
+                        particleCount: 20,
+                        spread: 40,
+                        origin: { x: x, y: y },
+                        colors: ['#ff6b6b', '#ffd93d', '#ff6fb7', '#a29bfe']
+                    });
+                }
+            });
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+            lbVideo.pause();
+        }
+
+        lbClose.addEventListener('click', closeLightbox);
+
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === this) closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // 5.  CONFETTI ON LOAD
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        setTimeout(() => {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 40,
+                    spread: 60,
+                    origin: { y: 0.25, x: 0.2 },
+                    colors: ['#ff6b6b', '#ffd93d', '#ff6fb7']
+                });
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 40,
+                        spread: 60,
+                        origin: { y: 0.25, x: 0.8 },
+                        colors: ['#4d96ff', '#6bcb77', '#a29bfe']
+                    });
+                }, 300);
+            }
+        }, 600);
+
+        console.log('📸 Memories page loaded — tap a polaroid to relive the moment!');
+    </script>
+</body>
+</html>

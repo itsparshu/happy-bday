@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reasons | Lalli</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Dancing+Script:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        /* ─── RESET & BASE ─── */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html,
+        body {
+            height: 100%;
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(145deg, #fff0f5, #ffb6c1, #ff85a2);
+            color: #3e3232;
+            overflow-x: hidden;
+            cursor: default;
+            min-height: 100vh;
+        }
+        body {
+            min-height: 100vh;
+        }
+
+        /* ─── CURSOR GLOW ─── */
+        .cursor-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 182, 193, 0.25) 0%, transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: left 0.08s ease-out, top 0.08s ease-out;
+            z-index: 9999;
+            will-change: left, top;
+        }
+
+        /* ─── FLOATING BG ─── */
+        .floating-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .floating-bg span {
+            position: absolute;
+            font-size: 2.4rem;
+            opacity: 0.20;
+            animation: floatUp linear infinite;
+            user-select: none;
+        }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.6);
+                opacity: 0.15;
+            }
+            10% {
+                opacity: 0.30;
+            }
+            90% {
+                opacity: 0.30;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(720deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* ─── BUBBLE CONTAINER ─── */
+        .bubble-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+            animation: bubbleRise linear infinite;
+            will-change: transform, opacity;
+            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            user-select: none;
+            pointer-events: none;
+        }
+        @keyframes bubbleRise {
+            0% {
+                transform: translateY(100vh) scale(0.3) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.1) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ─── NAVBAR ─── */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 2.4rem;
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
+        }
+        .navbar .logo {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #8f5f51;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.6rem;
+            align-items: center;
+        }
+        .nav-links a {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #5a3d3d;
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.25s, transform 0.25s;
+            letter-spacing: 0.3px;
+        }
+        .nav-links a:hover {
+            opacity: 1;
+            transform: translateY(-1px);
+        }
+        .nav-links a.active {
+            opacity: 1;
+            font-weight: 600;
+            color: #8f5f51;
+        }
+
+        /* ─── MAIN LAYOUT ─── */
+        .reasons-page {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            padding: 6rem 1.6rem 4rem;
+        }
+
+        /* ─── HEADER (matching Cake & Letter pages) ─── */
+        .reasons-header {
+            text-align: center;
+            padding: 1.2rem 0 2.4rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .reasons-header .script-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.4rem;
+            font-weight: 600;
+            color: #8f5f51;
+            margin-bottom: 0.2rem;
+        }
+
+        .reasons-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.6rem;
+            font-weight: 700;
+            color: #3e3232;
+            margin-bottom: 0.4rem;
+            letter-spacing: 1px;
+        }
+
+        .reasons-header .sub-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            color: #5a3d3d;
+            opacity: 0.7;
+            margin-bottom: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        /* ─── RANDOM REASON BUTTON ─── */
+        .random-reason-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.4rem;
+            width: 100%;
+            max-width: 520px;
+        }
+
+        .btn.primary {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #fff;
+            background: linear-gradient(135deg, #e8848b, #d66a7a);
+            border: none;
+            border-radius: 60px;
+            padding: 0.7rem 2.4rem;
+            cursor: pointer;
+            box-shadow: 0 8px 28px rgba(214, 106, 122, 0.35);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        .btn.primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 14px 40px rgba(214, 106, 122, 0.45);
+        }
+        .btn.primary:active {
+            transform: scale(0.94);
+        }
+
+        .random-reason {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #3e3232;
+            background: rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 0.8rem 1.8rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            min-height: 3.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        /* ─── REASON GRID ─── */
+        .reason-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.6rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.2rem 0 2rem;
+        }
+
+        .reason-card {
+            perspective: 800px;
+            aspect-ratio: 1 / 1;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+        }
+        .reason-card:hover {
+            transform: translateY(-4px) scale(1.01);
+        }
+
+        .reason-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.34, 1.2, 0.64, 1);
+            transform-style: preserve-3d;
+            border-radius: 20px;
+        }
+
+        .reason-card.flipped .reason-inner {
+            transform: rotateY(180deg);
+        }
+
+        .reason-front,
+        .reason-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .reason-front {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            text-align: center;
+            background: rgba(255, 248, 245, 0.85);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 20px rgba(62, 50, 50, 0.06);
+        }
+        .reason-front h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: #d66a7a;
+        }
+        .reason-front p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 300;
+            color: #7a5f5f;
+            margin-top: 0.2rem;
+            letter-spacing: 1px;
+            opacity: 0.6;
+        }
+
+        /* ─── REASON BACK — text at bottom, image clear ─── */
+        .reason-back {
+            transform: rotateY(180deg);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 0.8rem 0.9rem 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* gradient overlay only at bottom — keeps image clear */
+        .reason-back::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.15) 45%, transparent 70%);
+            pointer-events: none;
+            border-radius: 20px;
+        }
+
+        .reason-back p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            line-height: 1.3;
+            color: #fff;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            padding: 0.3rem 0.4rem;
+            max-width: 95%;
+            margin-bottom: 0.1rem;
+        }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            padding: 2rem 1.6rem 1.4rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: rgba(62, 50, 50, 0.55);
+            letter-spacing: 0.8px;
+            margin-top: 0.5rem;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.5rem 1.2rem;
+                flex-wrap: wrap;
+                gap: 0.3rem;
+            }
+            .navbar .logo {
+                font-size: 1.3rem;
+            }
+            .nav-links {
+                gap: 0.8rem;
+                flex-wrap: wrap;
+            }
+            .nav-links a {
+                font-size: 0.75rem;
+            }
+            .reasons-page {
+                padding: 5rem 1rem 3rem;
+            }
+            .reasons-header .script-text {
+                font-size: 1.8rem;
+            }
+            .reasons-header h1 {
+                font-size: 2.4rem;
+            }
+            .reason-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+            .reason-front h3 {
+                font-size: 2rem;
+            }
+            .reason-back p {
+                font-size: 0.82rem;
+            }
+            .random-reason {
+                font-size: 1.05rem;
+                padding: 0.6rem 1.2rem;
+                min-height: 3rem;
+            }
+            .btn.primary {
+                font-size: 0.9rem;
+                padding: 0.6rem 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .reason-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 0.8rem;
+            }
+            .reasons-header h1 {
+                font-size: 1.8rem;
+            }
+            .reasons-header .script-text {
+                font-size: 1.4rem;
+            }
+            .reason-front h3 {
+                font-size: 1.6rem;
+            }
+            .reason-back p {
+                font-size: 0.72rem;
+                padding: 0.2rem 0.3rem;
+            }
+            .reason-back {
+                padding: 0 0.4rem 0.6rem 0.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── CURSOR GLOW ─── -->
+    <div class="cursor-glow"></div>
+
+    <!-- ─── FLOATING BG EMOJIS ─── -->
+    <div class="floating-bg" id="floatingBg"></div>
+
+    <!-- ─── BUBBLE CONTAINER ─── -->
+    <div class="bubble-container" id="bubbleContainer"></div>
+
+    <!-- ─── NAVBAR ─── -->
+    <nav class="navbar glass">
+        <a href="index.html" class="logo">Lalli</a>
+        <div class="nav-links">
+            <a href="cake.html">Cake</a>
+            <a href="memories.html">Memories</a>
+            <a href="reasons.html" class="active">Reasons</a>
+            <a href="letter.html">Letter</a>
+            <a href="final.html">Final</a>
+        </div>
+    </nav>
+
+    <!-- ─── MAIN ─── -->
+    <main class="reasons-page">
+
+        <!-- ─── HEADER ─── -->
+        <header class="reasons-header">
+            <p class="script-text">one hundred tiny Reasons Why</p>
+            <h1>I Love You</h1>
+            <p class="sub-text">tap a card &amp; smile</p>
+
+            <div class="random-reason-wrapper">
+                <button class="btn primary" id="randomReasonBtn">💕 Click for a Random Reason</button>
+                <div class="random-reason" id="randomReason">You make ordinary things magical.</div>
+            </div>
+        </header>
+
+        <!-- ─── REASON GRID ─── -->
+        <section class="reason-grid" id="reasonGrid"></section>
+
+    </main>
+
+    <footer class="footer">100 reasons and still not enough ✦</footer>
+
+    <!-- ─── CONFETTI ─── -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
+    </script>
+
+    <script>
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // 1.  CURSOR GLOW
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        const glow = document.querySelector('.cursor-glow');
+        document.addEventListener('mousemove', (e) => {
+            if (!glow) return;
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // 2.  FLOATING BACKGROUND EMOJIS
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        (function initFloatingBg() {
+            const container = document.getElementById('floatingBg');
+            const emojis = ['🌸', '✨', '💖', '🌷', '💕', '🌟', '🌺', '💗', '🌈', '🌹', '💝', '🌻'];
+            for (let i = 0; i < 30; i++) {
+                const span = document.createElement('span');
+                span.textContent = emojis[i % emojis.length];
+                span.style.left = Math.random() * 100 + '%';
+                span.style.fontSize = (1.2 + Math.random() * 2.4) + 'rem';
+                span.style.animationDuration = (18 + Math.random() * 28) + 's';
+                span.style.animationDelay = (Math.random() * 20) + 's';
+                container.appendChild(span);
+            }
+        })();
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // 3.  BUBBLE GENERATOR
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        const bubbleContainer = document.getElementById('bubbleContainer');
+        const bubbleEmojis = ['💗', '🌸', '✨', '💖', '🌷', '💕', '🌟', '🌺', '🌈', '🌹', '💝', '🌻', '🎀', '💫', '🦋'];
+
+        function spawnBubble() {
+            const el = document.createElement('div');
+            el.className = 'bubble';
+            el.textContent = bubbleEmojis[Math.floor(Math.random() * bubbleEmojis.length)];
+            const size = 1.8 + Math.random() * 2.6;
+            el.style.fontSize = size + 'rem';
+            el.style.left = (Math.random() * 94 + 3) + '%';
+            el.style.animationDuration = (10 + Math.random() * 18) + 's';
+            el.style.animationDelay = (Math.random() * 0.6) + 's';
+            el.style.opacity = 0.15 + Math.random() * 0.35;
+            bubbleContainer.appendChild(el);
+            setTimeout(() => { if (el.parentNode) el.remove(); }, 30000);
+        }
+
+        (function startBubbles() {
+            for (let i = 0; i < 20; i++) setTimeout(spawnBubble, i * 180);
+            setInterval(spawnBubble, 1400);
+        })();
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // 4.  REASONS DATA (100 reasons)
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        const reasons = [
+            'Your smile feels like sunshine.',
+            'You make people feel safe.',
+            'Your laugh is unforgettable.',
+            'You turn simple days into stories.',
+            'You care deeply.',
+            'Your vibe is soft and magical.',
+            'You are beautifully genuine.',
+            'You make memories feel golden.',
+            'Your heart is rare.',
+            'You are my favorite person to annoy.',
+            'You glow without trying.',
+            'You make everything better.',
+            'You listen like home.',
+            'You are effortlessly classy.',
+            'You deserve the prettiest life.',
+            'You are a whole comfort place.',
+            'Your presence feels peaceful.',
+            'You are pure main character energy.',
+            'You make friendship feel precious.',
+            'You are loved more than words.',
+            'You bring calm into chaos.',
+            'You make every photo feel special.',
+            'You have the cutest little habits.',
+            'You make boring days memorable.',
+            'You are gentle but strong.',
+            'Your friendship feels like a blessing.',
+            'You understand things without words.',
+            'You make silence feel comfortable.',
+            'You are a walking soft glow.',
+            'You make people believe in kindness.',
+            'You are so easy to love.',
+            'You make celebrations feel brighter.',
+            'You carry warmth wherever you go.',
+            'You make tiny moments feel cinematic.',
+            'You have a beautiful soul.',
+            'You make me laugh at random times.',
+            'You are honest in the sweetest way.',
+            'You are my comfort notification.',
+            'You make the world less heavy.',
+            'You deserve flowers every day.',
+            'You make love feel simple.',
+            'You are soft, rare, and precious.',
+            'You make every plan more exciting.',
+            'You are naturally elegant.',
+            'You care even when nobody notices.',
+            'You are full of pretty energy.',
+            'You make friendship feel magical.',
+            'You are the reason behind many smiles.',
+            'You make ordinary chats memorable.',
+            'You are a safe place.',
+            'You look beautiful being yourself.',
+            'You make every goodbye feel hard.',
+            'You are thoughtful in little ways.',
+            'You make life feel warmer.',
+            'You are my favorite kind of person.',
+            'You make memories worth saving.',
+            'You are sunshine with a little drama.',
+            'You make birthdays feel meaningful.',
+            'You are a beautiful chapter.',
+            'You make every corner feel like home.',
+            'You are cute without even trying.',
+            'You have the prettiest heart.',
+            'You make people feel noticed.',
+            'You bring sparkle into simple things.',
+            'You are love in human form.',
+            'You make every story better.',
+            'You are someone I am grateful for.',
+            'You make emotions feel safe.',
+            'You have a rare kind of grace.',
+            'You make the day softer.',
+            'You are a forever kind of friend.',
+            'You make everyone around you happier.',
+            'You are pure golden-hour energy.',
+            'You make small surprises feel huge.',
+            'You are beautifully dramatic sometimes.',
+            'You make life feel like a cute vlog.',
+            'You are my favorite memory keeper.',
+            'You make even chaos look pretty.',
+            'You are special in every season.',
+            'You make me proud to know you.',
+            'You carry love in your details.',
+            'You make every laugh feel louder.',
+            'You are a little universe of warmth.',
+            'You make everything feel less lonely.',
+            'You are rare, real, and radiant.',
+            'You make wishes feel possible.',
+            'You are the prettiest comfort zone.',
+            'You make every message feel sweet.',
+            'You turn moments into keepsakes.',
+            'You are always worth celebrating.',
+            'You make kindness look beautiful.',
+            'You are a blessing in soft colors.',
+            'You make every page of life prettier.',
+            'You are deeply loved.',
+            'You make my heart smile.',
+            'You deserve all the magic.',
+            'You make today feel golden.',
+            'You are unforgettable.',
+            'You are my favorite birthday girl.',
+            'You are more loved than 100 reasons can say.'
+        ];
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // 5.  RENDER REASON GRID
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        const reasonGrid = document.getElementById('reasonGrid');
+
+        if (reasonGrid) {
+            const imageFolder = 'assets';
+
+            reasonGrid.innerHTML = reasons
+                .map((reason, index) => {
+                    const imageNumber = (index % 100) + 1;
+                    const image = `${imageFolder}/${imageNumber}.jpg`;
+                    return `
+                        <article class="reason-card" tabindex="0" data-index="${index}">
+                            <div class="reason-inner">
+                                <div class="reason-front">
+                                    <h3>${index + 1}</h3>
+                                    <p>tap ♡</p>
+                                </div>
+                                <div class="reason-back" style="background-image: url('${image}');">
+                                    <p>${reason}</p>
+                                </div>
+                            </div>
+                        </article>
+                    `;
+                })
+                .join('');
+
+            // ── Flip on click ──
+            document.querySelectorAll('.reason-card').forEach((card) => {
+                card.addEventListener('click', function(e) {
+                    if (e.target.closest('.reason-back')) return;
+                    this.classList.toggle('flipped');
+
+                    if (typeof confetti === 'function' && this.classList.contains('flipped')) {
+                        const rect = this.getBoundingClientRect();
+                        const x = (rect.left + rect.width / 2) / window.innerWidth;
+                        const y = (rect.top + rect.height / 2) / window.innerHeight;
+                        confetti({
+                            particleCount: 12,
+                            spread: 30,
+                            origin: { x: x, y: y },
+                            colors: ['#ff6b6b', '#ffd93d', '#ff6fb7', '#a29bfe']
+                        });
+                    }
+                });
+            });
+        }
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // 6.  RANDOM REASON BUTTON
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        const randomBtn = document.getElementById('randomReasonBtn');
+        const randomDisplay = document.getElementById('randomReason');
+
+        randomBtn?.addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * reasons.length);
+            randomDisplay.textContent = reasons[randomIndex];
+
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 60,
+                    spread: 70,
+                    origin: { y: 0.4, x: 0.5 },
+                    colors: ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6fb7']
+                });
+            }
+
+            randomDisplay.style.transform = 'scale(0.95)';
+            randomDisplay.style.opacity = '0.7';
+            setTimeout(() => {
+                randomDisplay.style.transform = 'scale(1)';
+                randomDisplay.style.opacity = '1';
+            }, 150);
+        });
+
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        // 7.  CONFETTI ON LOAD
+        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+        setTimeout(() => {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 40,
+                    spread: 60,
+                    origin: { y: 0.25, x: 0.2 },
+                    colors: ['#ff6b6b', '#ffd93d', '#ff6fb7']
+                });
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 40,
+                        spread: 60,
+                        origin: { y: 0.25, x: 0.8 },
+                        colors: ['#4d96ff', '#6bcb77', '#a29bfe']
+                    });
+                }, 300);
+            }
+        }, 600);
+
+        console.log('💕 100 Reasons page loaded — tap a card to reveal!');
+    </script>
+</body>
+</html>
