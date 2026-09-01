@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Happy Birthday Lalli</title>
+    <title>Happy Birthday Lalli 🎂</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Dancing+Script:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -151,7 +151,7 @@
             font-weight: 500;
             color: #5a3d3d;
             text-decoration: none;
-            opacity: 0.7;
+            opacity: 0.8;
             transition: opacity 0.25s, transform 0.25s;
             letter-spacing: 0.3px;
             position: relative;
@@ -165,30 +165,6 @@
             opacity: 1;
             font-weight: 600;
             color: #8f5f51;
-        }
-        .nav-links a.disabled-link {
-            opacity: 0.4;
-            cursor: not-allowed;
-            pointer-events: auto;
-        }
-        .nav-links a.disabled-link:hover {
-            opacity: 0.4;
-            transform: none;
-        }
-        .nav-links a .lock-icon {
-            font-size: 0.6rem;
-            margin-left: 2px;
-            opacity: 0.6;
-        }
-        .nav-links a.disabled-link .lock-icon {
-            opacity: 0.8;
-        }
-        .nav-links a.unlocked {
-            opacity: 1 !important;
-            cursor: pointer !important;
-        }
-        .nav-links a.unlocked .lock-icon {
-            display: none;
         }
 
         /* ─── MUSIC BUTTON ─── */
@@ -254,7 +230,7 @@
             z-index: 0;
         }
         .hero-content,
-        .countdown-card {
+        .birthday-card {
             position: relative;
             z-index: 1;
         }
@@ -332,67 +308,50 @@
             transform: scale(0.94);
         }
 
-        .btn.disabled-btn {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: auto;
-        }
-        .btn.disabled-btn:hover {
-            transform: none !important;
-            box-shadow: none !important;
-        }
-        .btn.unlocked {
-            opacity: 1 !important;
-            cursor: pointer !important;
-        }
-
-        /* ─── COUNTDOWN CARD ─── */
-        .countdown-card {
+        /* ─── BIRTHDAY CARD ─── */
+        .birthday-card {
             margin-top: 2.4rem;
-            padding: 1.6rem 2.4rem;
-            background: rgba(255, 255, 255, 0.30);
+            padding: 1.8rem 2.8rem;
+            background: rgba(255, 255, 255, 0.35);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
             display: inline-block;
-            min-width: 320px;
+            animation: birthdayPulse 2s ease-in-out infinite;
         }
-        .countdown-card .script-text {
+        .birthday-card .bday-emoji {
+            font-size: 3.2rem;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+        .birthday-card .bday-text {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.3rem;
-            font-weight: 500;
-            color: #8f5f51;
-            margin-bottom: 0.6rem;
-            opacity: 0.8;
-        }
-        .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-        }
-        .countdown div {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .countdown strong {
-            font-family: 'Poppins', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 600;
-            color: #3e3232;
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #d66a7a;
             line-height: 1.2;
+        }
+        .birthday-card .bday-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            color: #5a3d3d;
+            opacity: 0.75;
+            margin-top: 0.2rem;
             letter-spacing: 1px;
         }
-        .countdown span {
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 300;
-            color: #7a5f5f;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            margin-top: 2px;
+
+        @keyframes birthdayPulse {
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 8px 32px rgba(214, 106, 122, 0.10);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: 0 12px 48px rgba(214, 106, 122, 0.20);
+            }
         }
 
         /* ─── REVEAL ANIMATIONS ─── */
@@ -413,126 +372,6 @@
                 opacity: 1;
                 transform: translateY(0) scale(1);
             }
-        }
-
-        /* ─── SCOLDING MODAL ─── */
-        .scold-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: rgba(0, 0, 0, 0.55);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-            padding: 1.6rem;
-        }
-        .scold-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .scold-modal {
-            background: rgba(255, 248, 245, 0.95);
-            backdrop-filter: blur(8px);
-            border-radius: 40px;
-            padding: 3rem 3.2rem 2.6rem;
-            max-width: 460px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 32px 80px rgba(0, 0, 0, 0.2);
-            transform: scale(0.9) translateY(20px);
-            transition: transform 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            position: relative;
-        }
-        .scold-overlay.active .scold-modal {
-            transform: scale(1) translateY(0);
-        }
-
-        .scold-modal .scold-emoji {
-            font-size: 4.4rem;
-            margin-bottom: 0.6rem;
-            display: block;
-        }
-        .scold-modal h2 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.2rem;
-            color: #d66a7a;
-            margin-bottom: 0.4rem;
-        }
-        .scold-modal p {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.2rem;
-            color: #3e3232;
-            line-height: 1.6;
-            margin-bottom: 0.8rem;
-            opacity: 0.85;
-        }
-        .scold-modal .scold-timer {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 600;
-            color: #d66a7a;
-            background: rgba(214, 106, 122, 0.08);
-            padding: 0.4rem 1.2rem;
-            border-radius: 40px;
-            display: inline-block;
-            margin: 0.4rem 0 0.8rem;
-            letter-spacing: 1px;
-        }
-        .scold-modal .scold-close-btn {
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: #fff;
-            background: linear-gradient(135deg, #e8848b, #d66a7a);
-            border: none;
-            border-radius: 40px;
-            padding: 0.5rem 2rem;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 16px rgba(214, 106, 122, 0.25);
-            margin-top: 0.4rem;
-        }
-        .scold-modal .scold-close-btn:hover {
-            transform: scale(1.04);
-            box-shadow: 0 8px 28px rgba(214, 106, 122, 0.35);
-        }
-
-        /* ─── UNLOCK TOAST ─── */
-        .unlock-toast {
-            position: fixed;
-            bottom: 6rem;
-            left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            background: rgba(255, 248, 245, 0.95);
-            backdrop-filter: blur(12px);
-            padding: 0.8rem 2rem;
-            border-radius: 40px;
-            border: 1px solid rgba(214, 106, 122, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-            z-index: 9998;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.9rem;
-            color: #3e3232;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.6s cubic-bezier(0.34, 1.2, 0.64, 1);
-            text-align: center;
-            white-space: nowrap;
-        }
-        .unlock-toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-            pointer-events: auto;
-        }
-        .unlock-toast .toast-emoji {
-            margin-right: 6px;
         }
 
         /* ─── FOOTER ─── */
@@ -583,20 +422,18 @@
                 font-size: 0.85rem;
                 padding: 0.6rem 1.6rem;
             }
-            .countdown-card {
-                min-width: auto;
-                width: 100%;
-                padding: 1.2rem 1.6rem;
-                border-radius: 28px;
+            .birthday-card {
+                padding: 1.4rem 2rem;
+                border-radius: 32px;
             }
-            .countdown {
-                gap: 1.2rem;
+            .birthday-card .bday-emoji {
+                font-size: 2.6rem;
             }
-            .countdown strong {
+            .birthday-card .bday-text {
                 font-size: 1.8rem;
             }
-            .countdown span {
-                font-size: 0.6rem;
+            .birthday-card .bday-sub {
+                font-size: 1rem;
             }
             .music-btn {
                 width: 48px;
@@ -604,28 +441,6 @@
                 font-size: 1.3rem;
                 bottom: 1.4rem;
                 right: 1.4rem;
-            }
-            .scold-modal {
-                padding: 2.4rem 1.8rem 2rem;
-            }
-            .scold-modal .scold-emoji {
-                font-size: 3.6rem;
-            }
-            .scold-modal h2 {
-                font-size: 1.8rem;
-            }
-            .scold-modal p {
-                font-size: 1.05rem;
-            }
-            .scold-modal .scold-timer {
-                font-size: 1.3rem;
-            }
-            .unlock-toast {
-                font-size: 0.8rem;
-                padding: 0.6rem 1.4rem;
-                bottom: 5rem;
-                white-space: normal;
-                max-width: 90vw;
             }
         }
 
@@ -661,21 +476,18 @@
             .hero-actions {
                 gap: 0.6rem;
             }
-            .countdown-card {
-                padding: 1rem 1.2rem;
-                border-radius: 20px;
+            .birthday-card {
+                padding: 1.2rem 1.4rem;
+                border-radius: 24px;
             }
-            .countdown-card .script-text {
-                font-size: 1rem;
+            .birthday-card .bday-emoji {
+                font-size: 2.2rem;
             }
-            .countdown {
-                gap: 0.8rem;
+            .birthday-card .bday-text {
+                font-size: 1.5rem;
             }
-            .countdown strong {
-                font-size: 1.4rem;
-            }
-            .countdown span {
-                font-size: 0.5rem;
+            .birthday-card .bday-sub {
+                font-size: 0.85rem;
             }
             .music-btn {
                 width: 40px;
@@ -684,36 +496,9 @@
                 bottom: 1rem;
                 right: 1rem;
             }
-            .scold-modal {
-                padding: 1.8rem 1.2rem 1.6rem;
-                border-radius: 28px;
-            }
-            .scold-modal .scold-emoji {
-                font-size: 2.8rem;
-            }
-            .scold-modal h2 {
-                font-size: 1.5rem;
-            }
-            .scold-modal p {
-                font-size: 0.95rem;
-            }
-            .scold-modal .scold-timer {
-                font-size: 1.1rem;
-                padding: 0.3rem 0.8rem;
-            }
-            .scold-modal .scold-close-btn {
-                font-size: 0.75rem;
-                padding: 0.4rem 1.4rem;
-            }
             .footer {
                 font-size: 0.7rem;
                 padding: 1rem 1rem 0.8rem;
-            }
-            .unlock-toast {
-                font-size: 0.7rem;
-                padding: 0.5rem 1rem;
-                bottom: 4.5rem;
-                max-width: 92vw;
             }
         }
 
@@ -724,11 +509,8 @@
             .hero-content .script-text {
                 font-size: 1.3rem;
             }
-            .countdown strong {
+            .birthday-card .bday-text {
                 font-size: 1.2rem;
-            }
-            .countdown {
-                gap: 0.6rem;
             }
         }
     </style>
@@ -748,22 +530,16 @@
     <nav class="navbar glass">
         <a href="index.html" class="logo">Lalli</a>
         <div class="nav-links">
-            <a href="cake.html" class="nav-link disabled-link" data-page="cake">Cake <span class="lock-icon">🔒</span></a>
-            <a href="memories.html" class="nav-link disabled-link" data-page="memories">Memories <span class="lock-icon">🔒</span></a>
-            <a href="reasons.html" class="nav-link disabled-link" data-page="reasons">Reasons <span class="lock-icon">🔒</span></a>
-            <a href="letter.html" class="nav-link disabled-link" data-page="letter">Letter <span class="lock-icon">🔒</span></a>
-            <a href="final.html" class="nav-link disabled-link" data-page="final">Final <span class="lock-icon">🔒</span></a>
+            <a href="cake.html" class="nav-link" data-page="cake">Cake</a>
+            <a href="memories.html" class="nav-link" data-page="memories">Memories</a>
+            <a href="reasons.html" class="nav-link" data-page="reasons">Reasons</a>
+            <a href="letter.html" class="nav-link" data-page="letter">Letter</a>
+            <a href="final.html" class="nav-link" data-page="final">Final</a>
         </div>
     </nav>
 
     <!-- ─── MUSIC BUTTON ─── -->
     <button class="music-btn" id="musicBtn">♪</button>
-
-    <!-- ─── UNLOCK TOAST ─── -->
-    <div class="unlock-toast" id="unlockToast">
-        <span class="toast-emoji">🔓</span>
-        <span id="toastMessage">Everything is unlocked! 🎉</span>
-    </div>
 
     <!-- ─── HERO ─── -->
     <main class="hero page-section">
@@ -771,47 +547,27 @@
 
         <section class="hero-content reveal">
             <p class="script-text">
-                Welcome Dudu ❤️<br />
-                It's a little universe made just for you
+                Happy Birthday Dudu ❤️<br />
+                Today is all about you!
             </p>
             <p class="hero-desc">
-                Happy Birthday to the girl who makes ordinary days feel a little more beautiful,<br />
-                and my world a whole lot brighter. ❤️
+                The most beautiful soul deserves the most beautiful day.<br />
+                I hope your birthday is as magical and wonderful as you are. ❤️
             </p>
             <div class="hero-actions">
-                <a class="btn primary disabled-btn" id="cakeBtn" href="cake.html">🎂 Cut the Cake</a>
-                <a class="btn ghost disabled-btn" id="letterBtn" href="letter.html">💌 Read Letter</a>
+                <a class="btn primary" id="cakeBtn" href="cake.html">🎂 Cut the Cake</a>
+                <a class="btn ghost" id="letterBtn" href="letter.html">💌 Read Letter</a>
             </div>
         </section>
 
-        <aside class="countdown-card glass reveal delay-1">
-            <p class="script-text">birthday countdown</p>
-            <div class="countdown" id="countdown">
-                <div><strong id="days">00</strong><span>Days</span></div>
-                <div><strong id="hours">00</strong><span>Hours</span></div>
-                <div><strong id="mins">00</strong><span>Mins</span></div>
-                <div><strong id="secs">00</strong><span>Secs</span></div>
-            </div>
-        </aside>
+        <div class="birthday-card reveal delay-1">
+            <span class="bday-emoji">🎉</span>
+            <div class="bday-text">Happy Birthday Lalli!</div>
+            <div class="bday-sub">✨ September 2, 2026 ✨</div>
+        </div>
     </main>
 
     <footer class="footer">made with all the love in the universe ✦</footer>
-
-    <!-- ─── SCOLDING MODAL ─── -->
-    <div class="scold-overlay" id="scoldOverlay">
-        <div class="scold-modal">
-            <span class="scold-emoji">🙈</span>
-            <h2>Oopssiee Dudu!</h2>
-            <p>
-                <span id="scoldMessage">This page is locked until your birthday!</span>
-                <br />
-                <span style="font-size:0.9rem;opacity:0.7;">You're early, baby girl. Wait just a little bit longer...</span>
-            </p>
-            <div class="scold-timer" id="scoldTimer">⏳ loading...</div>
-            <br />
-            <button class="scold-close-btn" id="scoldCloseBtn">🙈 Okay, I'll wait</button>
-        </div>
-    </div>
 
     <!-- ─── CONFETTI ─── -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js">
@@ -871,189 +627,9 @@
         })();
 
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        // 4.  COUNTDOWN
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        const birthdayDate = new Date('2026-09-02T00:00:00').getTime();
-
-        function updateCountdown() {
-            const now = Date.now();
-            const difference = Math.max(birthdayDate - now, 0);
-
-            const days = Math.floor(difference / 86400000);
-            const hours = Math.floor((difference % 86400000) / 3600000);
-            const minutes = Math.floor((difference % 3600000) / 60000);
-            const seconds = Math.floor((difference % 60000) / 1000);
-
-            document.getElementById('days').textContent = String(days).padStart(2, '0');
-            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-            document.getElementById('mins').textContent = String(minutes).padStart(2, '0');
-            document.getElementById('secs').textContent = String(seconds).padStart(2, '0');
-
-            if (difference === 0 && !isUnlocked) {
-                unlockAll();
-            }
-
-            return difference;
-        }
-
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        // 5.  UNLOCK / LOCK SYSTEM (only URL param)
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        let isUnlocked = false;
-
-        const scoldOverlay = document.getElementById('scoldOverlay');
-        const scoldCloseBtn = document.getElementById('scoldCloseBtn');
-        const scoldTimer = document.getElementById('scoldTimer');
-        const scoldMessage = document.getElementById('scoldMessage');
-
-        const scoldMessages = [
-            "🙈 Oopssiee! You're too early, baby girl!",
-            "😤 Wait wait wait! It's not your birthday yet!",
-            "🤭 Someone's excited! But patience, my love...",
-            "🙄 Dudu, you can't cheat time!",
-            "😘 I love your enthusiasm, but wait a little longer!",
-            "💖 The surprise is worth waiting for, trust me!",
-            "🌸 Not yet, my love! The magic happens on 2nd September!"
-        ];
-
-        function getTimeRemaining() {
-            const now = Date.now();
-            const diff = Math.max(birthdayDate - now, 0);
-            const days = Math.floor(diff / 86400000);
-            const hours = Math.floor((diff % 86400000) / 3600000);
-            const minutes = Math.floor((diff % 3600000) / 60000);
-            const seconds = Math.floor((diff % 60000) / 1000);
-
-            if (diff === 0) return null;
-
-            let parts = [];
-            if (days > 0) parts.push(`${days}d`);
-            if (hours > 0) parts.push(`${hours}h`);
-            if (minutes > 0) parts.push(`${minutes}m`);
-            if (seconds > 0 || parts.length === 0) parts.push(`${seconds}s`);
-
-            return parts.join(' ');
-        }
-
-        function showScoldModal(targetName) {
-            if (isUnlocked) return;
-            const randomMsg = scoldMessages[Math.floor(Math.random() * scoldMessages.length)];
-            scoldMessage.textContent = randomMsg;
-
-            const remaining = getTimeRemaining();
-            if (remaining) {
-                scoldTimer.textContent = `⏳ ${remaining} remaining`;
-            } else {
-                scoldTimer.textContent = '🎉 It\'s your birthday!';
-            }
-
-            scoldOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-
-            if (typeof confetti === 'function') {
-                confetti({
-                    particleCount: 30,
-                    spread: 50,
-                    origin: { y: 0.4, x: 0.5 },
-                    colors: ['#ff6b6b', '#ffd93d', '#ff6fb7', '#a29bfe']
-                });
-            }
-        }
-
-        function hideScoldModal() {
-            scoldOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        scoldCloseBtn.addEventListener('click', hideScoldModal);
-
-        scoldOverlay.addEventListener('click', function(e) {
-            if (e.target === this) hideScoldModal();
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') hideScoldModal();
-        });
-
-        // ─── UNLOCK FUNCTION ───
-        function unlockAll() {
-            if (isUnlocked) return;
-            isUnlocked = true;
-
-            document.querySelectorAll('.nav-link').forEach((link) => {
-                link.classList.remove('disabled-link');
-                link.classList.add('unlocked');
-                const lockIcon = link.querySelector('.lock-icon');
-                if (lockIcon) lockIcon.remove();
-            });
-
-            document.querySelectorAll('.btn.disabled-btn').forEach((btn) => {
-                btn.classList.remove('disabled-btn');
-                btn.classList.add('unlocked');
-            });
-
-            showToast('🔓 Everything is unlocked! 🎉');
-
-            if (typeof confetti === 'function') {
-                confetti({
-                    particleCount: 200,
-                    spread: 120,
-                    origin: { y: 0.45, x: 0.5 },
-                    colors: ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6fb7', '#a29bfe', '#f8a5c2']
-                });
-                setTimeout(() => {
-                    confetti({
-                        particleCount: 100,
-                        spread: 80,
-                        origin: { y: 0.35, x: 0.2 },
-                        colors: ['#ff9ff3', '#f368e0', '#ff6b6b', '#feca57']
-                    });
-                }, 400);
-                setTimeout(() => {
-                    confetti({
-                        particleCount: 100,
-                        spread: 80,
-                        origin: { y: 0.35, x: 0.8 },
-                        colors: ['#54a0ff', '#2ed573', '#ff9ff3', '#ffd93d']
-                    });
-                }, 700);
-            }
-
-            console.log('🎉🔓 UNLOCKED: Happy Birthday Lalli! Everything is accessible!');
-        }
-
-        // ─── TOAST ───
-        let toastTimeout = null;
-
-        function showToast(message) {
-            const toast = document.getElementById('unlockToast');
-            const toastMsg = document.getElementById('toastMessage');
-            toastMsg.textContent = message;
-            toast.classList.add('show');
-
-            if (toastTimeout) clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 4000);
-        }
-
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        // 6.  🚀 BYPASS: URL PARAM ONLY
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        (function checkURLParam() {
-            const params = new URLSearchParams(window.location.search);
-            if (params.get('unlock') === 'true' || params.get('unlock') === '1') {
-                console.log('🔓 Bypass: URL parameter detected — unlocking...');
-                setTimeout(unlockAll, 300);
-            }
-        })();
-
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        // 7.  MUSIC BUTTON — FIXED WITH ACTUAL AUDIO!
+        // 4.  MUSIC BUTTON — with actual audio!
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
         const musicBtn = document.getElementById('musicBtn');
-
-        // Create audio element for birthday song
         let audio = null;
 
         function initAudio() {
@@ -1063,12 +639,7 @@
                     audio.loop = true;
                     audio.volume = 0.6;
                 } catch (e) {
-                    console.log('Audio file not found — using fallback beep');
-                    // Fallback: create a simple oscillator if browser supports it
-                    try {
-                        const ctx = new(window.AudioContext || window.webkitAudioContext)();
-                        // We'll use this as a fallback later
-                    } catch (e2) {}
+                    console.log('Audio file not found — using fallback');
                 }
             }
             return audio;
@@ -1079,7 +650,6 @@
             const isPlaying = btn.classList.contains('playing');
 
             if (isPlaying) {
-                // Stop music
                 if (audio) {
                     audio.pause();
                     audio.currentTime = 0;
@@ -1088,11 +658,8 @@
                 btn.textContent = '♪';
                 console.log('🎵 Music paused');
             } else {
-                // Start music
                 const audioEl = initAudio();
-
                 if (audioEl) {
-                    // Try to play
                     const playPromise = audioEl.play();
                     if (playPromise !== undefined) {
                         playPromise
@@ -1101,31 +668,15 @@
                                 btn.textContent = '♫';
                                 console.log('🎵 Music playing!');
                             })
-                            .catch((err) => {
-                                console.log('Autoplay blocked — clicking again will play');
-                                // Browser blocked autoplay — show a message or retry
-                                // We'll retry on next click
+                            .catch(() => {
                                 btn.classList.remove('playing');
                                 btn.textContent = '♪';
-                                // Show small notification
-                                showToast('🎵 Click again to play (autoplay blocked)');
                             });
                     }
                 } else {
-                    // Fallback: use Web Audio API to generate a simple tone
+                    // Fallback: simple beep melody
                     try {
                         const ctx = new(window.AudioContext || window.webkitAudioContext)();
-                        const oscillator = ctx.createOscillator();
-                        const gain = ctx.createGain();
-                        oscillator.connect(gain);
-                        gain.connect(ctx.destination);
-                        oscillator.type = 'sine';
-                        oscillator.frequency.value = 523.25; // C5
-                        gain.gain.value = 0.3;
-                        oscillator.start();
-                        oscillator.stop(ctx.currentTime + 0.5);
-
-                        // Play a few notes (simple fallback)
                         const notes = [523.25, 587.33, 659.25, 783.99, 880.00];
                         notes.forEach((freq, i) => {
                             setTimeout(() => {
@@ -1140,12 +691,9 @@
                                 osc.stop(ctx.currentTime + 0.3);
                             }, i * 200);
                         });
-
                         btn.classList.add('playing');
                         btn.textContent = '♫';
-                        showToast('🎵 Playing a little melody for you!');
                     } catch (e) {
-                        showToast('🎵 Could not play audio — try tapping again');
                         btn.classList.remove('playing');
                         btn.textContent = '♪';
                     }
@@ -1153,114 +701,78 @@
             }
         }
 
-        // Click handler for music button
         musicBtn?.addEventListener('click', function(e) {
             e.stopPropagation();
             toggleMusic();
         });
 
-        // Also try to play on first user interaction anywhere on page
+        // Try auto-play on first interaction
         let musicStarted = false;
 
         function tryAutoPlay() {
             if (musicStarted) return;
             musicStarted = true;
-
-            // Try to play music silently on first click
             setTimeout(() => {
                 const audioEl = initAudio();
                 if (audioEl) {
-                    audioEl.play().catch(() => {
-                        // Silently fail — user can click the button
-                        console.log('Auto-play blocked, user must click button');
-                    });
+                    audioEl.play().catch(() => {});
                 }
             }, 500);
         }
-
-        // Attempt autoplay on any user interaction
         document.addEventListener('click', tryAutoPlay, { once: true });
         document.addEventListener('touchstart', tryAutoPlay, { once: true });
 
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        // 8.  COUNTDOWN LOOP + UNLOCK CHECK
+        // 5.  CONFETTI BURST — it's her birthday!
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        updateCountdown();
-        setInterval(() => {
-            const diff = updateCountdown();
-
-            if (scoldOverlay.classList.contains('active')) {
-                const remaining = getTimeRemaining();
-                if (remaining) {
-                    scoldTimer.textContent = `⏳ ${remaining} remaining`;
-                } else {
-                    scoldTimer.textContent = '🎉 It\'s your birthday!';
-                }
-            }
-
-            if (diff === 0 && !isUnlocked) {
-                unlockAll();
-            }
-        }, 1000);
-
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        // 9.  CONFETTI ON LOAD
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        setTimeout(() => {
-            if (typeof confetti === 'function') {
+        function fireConfetti() {
+            if (typeof confetti !== 'function') return;
+            confetti({
+                particleCount: 200,
+                spread: 130,
+                origin: { y: 0.4, x: 0.5 },
+                colors: ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff6fb7', '#a29bfe', '#f8a5c2']
+            });
+            setTimeout(() => {
                 confetti({
-                    particleCount: 35,
-                    spread: 50,
-                    origin: { y: 0.2, x: 0.2 },
-                    colors: ['#ff6b6b', '#ffd93d', '#ff6fb7']
+                    particleCount: 120,
+                    spread: 90,
+                    origin: { y: 0.3, x: 0.15 },
+                    colors: ['#ff9ff3', '#f368e0', '#ff6b6b', '#feca57']
                 });
-                setTimeout(() => {
-                    confetti({
-                        particleCount: 35,
-                        spread: 50,
-                        origin: { y: 0.2, x: 0.8 },
-                        colors: ['#4d96ff', '#6bcb77', '#a29bfe']
-                    });
-                }, 350);
-            }
-        }, 700);
+            }, 350);
+            setTimeout(() => {
+                confetti({
+                    particleCount: 120,
+                    spread: 90,
+                    origin: { y: 0.3, x: 0.85 },
+                    colors: ['#54a0ff', '#2ed573', '#ff9ff3', '#ffd93d']
+                });
+            }, 650);
+            setTimeout(() => {
+                confetti({
+                    particleCount: 150,
+                    spread: 100,
+                    origin: { y: 0.55, x: 0.5 },
+                    colors: ['#ff6b6b', '#ffd93d', '#ff6fb7', '#a29bfe', '#f8a5c2']
+                });
+            }, 1000);
+        }
+
+        // Fire confetti on load with delays
+        setTimeout(fireConfetti, 600);
+        setTimeout(fireConfetti, 2000);
+        setTimeout(fireConfetti, 4000);
 
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        // 10. CLICK HANDLERS FOR LOCKED ELEMENTS
+        // 6.  CONSOLE WELCOME
         // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        document.querySelectorAll('.nav-link.disabled-link').forEach((link) => {
-            link.addEventListener('click', function(e) {
-                if (isUnlocked) return;
-                e.preventDefault();
-                const pageName = this.dataset.page || 'this page';
-                showScoldModal(pageName);
-            });
-        });
-
-        document.querySelectorAll('.btn.disabled-btn').forEach((btn) => {
-            btn.addEventListener('click', function(e) {
-                if (isUnlocked) return;
-                e.preventDefault();
-                const pageName = this.textContent.trim() || 'this page';
-                showScoldModal(pageName);
-            });
-        });
-
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        // 11. CONSOLE HELP
-        // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-        console.log('🎂 Happy Birthday Lalli! 🎂');
-        console.log('📅 Countdown to 2nd September 2026');
-        console.log('🔒 All pages are locked until the big day!');
+        console.log('🎂🎉 HAPPY BIRTHDAY LALLI! 🎉🎂');
+        console.log('✨ September 2, 2026 — The most special day! ✨');
+        console.log('💖 Made with all the love in the universe.');
         console.log('');
-        console.log('🕵️ ─── BYPASS METHOD ───');
-        console.log('  ➜ Add ?unlock=true to the URL (e.g., index.html?unlock=true)');
-        console.log('');
-        console.log('🎵 ─── MUSIC ───');
-        console.log('  ➜ Click the ♪ button in the bottom-right corner');
-        console.log('  ➜ Music file: assets/bday.mp3');
-        console.log('');
-        console.log('💖 Made with love for the most special person.');
+        console.log('🎵 Click the ♪ button in the bottom-right corner for music!');
+        console.log('📸 Explore all the pages — they\'re all unlocked for you!');
     </script>
 </body>
 </html>
